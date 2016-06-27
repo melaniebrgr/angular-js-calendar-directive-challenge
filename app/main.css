@@ -1,1 +1,31 @@
-/* your css code goes here */
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+calendar-menu header {
+	height: 50px;
+}
+
+calendar-display {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+calendar-display div {
+	border: 1px solid rgb(200,200,200);
+	width: 14.285714286%;
+	height: 125px;
+}
+
+calendar-display div span {
+	display: inline-block;
+	margin: 5px;
+}
+
+.currMonth {
+	background-color: rgb(240,240,240);
+}
