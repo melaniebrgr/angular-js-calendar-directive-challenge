@@ -23,6 +23,7 @@ angular.module('calendarDemoApp', [])
 		$scope.selectedMonth = $scope.months[preparedDate.month];
 		$scope.selectedYear = $scope.years[parseInt($scope.years.length/2)];	
 	})
+
 	.directive('calendarMenu', function() { 
 		return {
 			restrict: 'E',
@@ -30,17 +31,35 @@ angular.module('calendarDemoApp', [])
 			controller: 'calendarDemoCtrl'
 		}
 	})
+
 	.directive('calendarDisplay', function() {
 		return {
 			restrict: 'E',
 			templateUrl: 'calendar-display.html',
 			controller: 'calendarDemoCtrl',
 			link: function(scope, element, attrs) {
-				// When month or year changes, update calendar
+				// When month or year changes, update calendarDisplay
 
-				scope.selectedDate = new Date(scope.selectedYear, scope.selectedMonth.number);
-				scope.preparedDate = CalendarRange.prepareDate(scope.selectedDate);
-				scope.monthlyRange = CalendarRange.getMonthlyRange(scope.selectedDate);
+				let updateDate = function(year, month) {
+					scope.selectedDate = new Date(year, month);
+					scope.preparedDate = CalendarRange.prepareDate(scope.selectedDate);
+					scope.monthlyRange = CalendarRange.getMonthlyRange(scope.selectedDate);					
+				}
+				updateDate(scope.selectedYear, scope.selectedMonth.number);
+
+				$('select[name="select-month"]').on('change', function() {
+					let that = this;
+					scope.$apply(function() {
+						updateDate(scope.selectedYear, $(that).val());
+					});
+				});
+				$('select[name="select-year"]').on('change', function() {
+					let that = this;
+					scope.$apply(function() {
+						updateDate($(that).val(), scope.selectedMonth.number);
+					});
+				});
+
 			}
 		}
 	});
